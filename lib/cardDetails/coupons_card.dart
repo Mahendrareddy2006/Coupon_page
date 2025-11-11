@@ -1,8 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 
-class CouponCard extends StatelessWidget {
+class CouponCard extends StatefulWidget {
   final Color priceTagColor;
   final Color cardBgColor;
   final VoidCallback onApply;
@@ -14,34 +12,83 @@ class CouponCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<CouponCard> createState() => _CouponCardState();
+}
+
+class _CouponCardState extends State<CouponCard> {
+  bool isApplied = false;
+
+  @override
   Widget build(BuildContext context) {
     return Card(
-      color: cardBgColor,
+      color: widget.cardBgColor,
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: Row(
         children: [
-          Container(
-            width: 48,
-            height: 138,
-            decoration: BoxDecoration(
-              color: priceTagColor,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                bottomLeft: Radius.circular(10),
-              ),
-            ),
-            alignment: Alignment.center,
-            child: RotatedBox(
-              quarterTurns: -1,
-              child: Text(
-                '₹ 6,900',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26,
+          SizedBox(
+            width: 56,
+            height: 158,
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: widget.priceTagColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      bottomLeft: Radius.circular(12),
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(
+                  right: -10,
+                  top: 22,
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: widget.cardBgColor,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: -10,
+                  top: 52,
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: widget.cardBgColor,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: -10,
+                  top: 82,
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: widget.cardBgColor,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+                Center(
+                  child: RotatedBox(
+                    quarterTurns: -1,
+                    child: Text(
+                      '₹ 6,900',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -61,16 +108,30 @@ class CouponCard extends StatelessWidget {
                       ),
                       Spacer(),
                       TextButton(
-                        onPressed: onApply,
+                        onPressed: () {
+                          setState(() {
+                            isApplied = !isApplied;
+                          });
+                          if (isApplied) widget.onApply();
+                        },
                         child: Row(
                           children: [
-                            Icon(Icons.check_circle_outline, size: 18, color: priceTagColor),
+                            Icon(
+                              isApplied
+                                  ? Icons.check_circle
+                                  : Icons.check_circle_outline,
+                              size: 18,
+                              color: widget.priceTagColor,
+                            ),
                             SizedBox(width: 4),
-                            Text('Apply', style: TextStyle(color: priceTagColor)),
+                            Text(
+                              isApplied ? 'Applied' : 'Apply',
+                              style: TextStyle(color: widget.priceTagColor),
+                            ),
                           ],
                         ),
                         style: TextButton.styleFrom(
-                          foregroundColor: priceTagColor,
+                          foregroundColor: widget.priceTagColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18),
                           ),
