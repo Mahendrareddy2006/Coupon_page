@@ -7,7 +7,7 @@ class CouponsPage extends StatelessWidget {
   void _showSuccess(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Success! Button clicked.'),
+        content: Text('Action successful! — This action is for demo purposes only.'),
         backgroundColor: Colors.green,
         duration: Duration(seconds: 2),
       ),
